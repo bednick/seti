@@ -43,8 +43,10 @@ public class SelectorServer {
                 Set<SelectionKey> keys = selector.selectedKeys();
                 for (SelectionKey key:keys) {
                     if(key.attachment() != null){
-                        System.out.println("Client's " + ((SocketChannel) key.channel()).getRemoteAddress()
+                        System.out.println("\nClient's " + ((SocketChannel) key.channel()).getRemoteAddress()
                                 + " speed is " + ((Time) key.attachment()).getSpeed() + " Mb/s");
+                        System.out.println("Client's " + ((SocketChannel) key.channel()).getRemoteAddress()
+                                + " AllSpeed is " + ((Time) key.attachment()).getAllSpeed() + " Mb/s");
                     }
                 }
                 lastTime = System.currentTimeMillis();
@@ -98,18 +100,27 @@ public class SelectorServer {
     private class Time {
         long lastTime;
         long sizeByte;
+        long timeStart;
+        long allByte;
         public Time(){
             lastTime = System.currentTimeMillis();
             sizeByte = 0;
+            timeStart = System.currentTimeMillis();
+            allByte = 0;
         }
         public void addByte (long size){
             sizeByte += size;
+            allByte += size;
         }
         public double getSpeed() {
             double speed = (sizeByte / (1024.0 * 1024.0)) / ((System.currentTimeMillis() - lastTime) / 1000.0);
             lastTime = System.currentTimeMillis();
             sizeByte  = 0;
             return speed;
+        }
+
+        public double getAllSpeed() {
+            return (allByte / (1024.0 * 1024.0)) / ((System.currentTimeMillis() - timeStart) / 1000.0);
         }
     }
 }

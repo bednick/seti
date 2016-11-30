@@ -38,7 +38,12 @@ public class Client {
     public static void main(String[] args) {
         try {
             //Client client = new Client(InetAddress.getLocalHost(), Laba_2.PORT);
-            Client client = new Client(InetAddress.getByName("172.16.14.5"), 1234);
+            //Client client = new Client(InetAddress.getByName("192.168.137.181"), 2158);
+            if(args.length != 1){
+                System.err.println("error args != 1");
+                return;
+            }
+            Client client = new Client(InetAddress.getByName(args[0]), Laba_2.PORT);
             client.start();
         } catch (IOException e) {
             System.err.println(e.toString());
