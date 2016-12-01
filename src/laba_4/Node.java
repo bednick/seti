@@ -34,7 +34,7 @@ public class Node {
         Node other = (Node) obj;
         if (port != other.port)
             return false;
-        if (!inetAddress.equals(other))
+        if (!inetAddress.equals(other.getInetAddress()))
             return false;
 
         return true;
