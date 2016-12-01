@@ -84,23 +84,12 @@ public class Message {
     }
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
+        if (this == o)
             return true;
-        }
-        if (o == null) {
+        if (o == null)
             return false;
-        }
-        if (o.getClass() != getClass()) {
+        if (getClass() != o.getClass())
             return false;
-        }
-        if (address != null) {
-            return ((Message) o).guid == guid && address.equals(o);
-        } else {
-            if (((Message) o).address == null) {
-                return ((Message) o).guid == guid;
-            } else {
-                return false;
-            }
-        }
+        return ((Message) o).guid == guid;
     }
 }
