@@ -4,6 +4,7 @@ import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.nio.ByteBuffer;
+import java.nio.CharBuffer;
 import java.nio.channels.Selector;
 import java.nio.charset.Charset;
 
@@ -27,12 +28,14 @@ public class TestClient {
                 if (streamStdin.ready()) {
                     buffer.put(streamStdin.readLine().getBytes(Charset.forName("UTF-8")));
                     streamOut.write(buffer.array(), 0, buffer.position());
-                    System.err.println("write :" + new String(buffer.array(), Charset.forName("UTF-8")));
+                    System.err.println("write " + buffer.position());
+                    System.err.println("write :" + new String(buffer.array(), Charset.forName("UTF-8")).substring(0,buffer.position()));
                     buffer.clear();
                 }
                 if (streamIn.ready()) {
-                    streamIn.read(buffer.asCharBuffer());
-                    System.err.println("Echo: " + new String(buffer.array(), Charset.forName("UTF-8")));
+                    CharBuffer charBuffer = buffer.asCharBuffer();
+                    System.err.println("read " + streamIn.read(charBuffer));
+                    System.err.println("Echo: " +charBuffer.flip());
                     buffer.clear();
                 }
                 try {
